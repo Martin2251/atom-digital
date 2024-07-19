@@ -27,7 +27,9 @@ const ContactForm: React.FC = () => {
 
   const handleSubmit = (values: typeof initialValues, { resetForm }: { resetForm: () => void }) => {
     console.log(values)
-    toast.success('Message sent successfully!', { position: toast.POSITION.TOP_CENTER })
+    toast.success("Success Notification !", {
+        position: "top-center"
+      });
     resetForm()
   }
 
