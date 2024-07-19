@@ -3,12 +3,16 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import Header from '@/components/Header/Header'
 import InfoSection from '@/components/InfoSection/InfoSection'
+import { ToastContainer } from 'react-toastify'
+import ContactForm from '@/components/ContactForm/ContactForm'
 
 const Home: NextPage = () => {
   const currentYear = new Date().getFullYear()
 
   return (
+   
     <div className="flex min-h-screen flex-col items-center justify-center py-2 bg-gray-100">
+       <ToastContainer />
       <Head>
         <title>Atom Digital</title>
         <meta name="description" content="Atom Digital - A mobile responsive site" />
@@ -24,6 +28,7 @@ const Home: NextPage = () => {
       
 
         <InfoSection />
+        <ContactForm  />
       </main>
 
       <footer className="flex h-24 w-full items-center justify-center border-t">
