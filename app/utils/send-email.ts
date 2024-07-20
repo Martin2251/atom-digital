@@ -1,3 +1,4 @@
+// utils/send-email.ts
 export async function sendEmail(data: { name: string, email: string, telephone: string, message: string }) {
     const apiEndpoint = '/api/email'
   
@@ -10,7 +11,7 @@ export async function sendEmail(data: { name: string, email: string, telephone: 
     })
   
     const result = await response.json()
-    
+  
     if (response.ok) {
       return result.message
     } else {

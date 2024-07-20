@@ -3,7 +3,7 @@ import { Formik, Field, Form, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import { sendEmail } from '../utils/send-email'
+import { sendEmail } from '@/app/utils/send-email'
 
 const ContactForm: React.FC = () => {
   const initialValues = {

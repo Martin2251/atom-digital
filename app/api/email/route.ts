@@ -1,12 +1,8 @@
-import { NextApiRequest, NextApiResponse } from 'next'
+import { NextRequest, NextResponse } from 'next/server'
 import nodemailer from 'nodemailer'
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ message: 'Method not allowed' })
-  }
-
-  const { name, email, telephone, message } = req.body
+export async function POST(request: NextRequest) {
+  const { name, email, telephone, message } = await request.json()
 
   // Create transporter
   const transporter = nodemailer.createTransport({
@@ -27,13 +23,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   try {
     await transporter.sendMail(mailOptions)
-    return res.status(200).json({ message: 'Email sent successfully' })
+    return NextResponse.json({ message: 'Email sent successfully' })
   } catch (err) {
     // Type assertion to handle error
     if (err instanceof Error) {
-      return res.status(500).json({ error: err.message })
+      return NextResponse.json({ error: err.message }, { status: 500 })
     } else {
-      return res.status(500).json({ error: 'An unknown error occurred' })
+      return NextResponse.json({ error: 'An unknown error occurred' }, { status: 500 })
     }
   }
 }
