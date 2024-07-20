@@ -11,7 +11,7 @@ export async function sendEmail(data: { name: string, email: string, telephone: 
     })
   
     const result = await response.json()
-  
+    console.log(1)
     if (response.ok) {
       return result.message
     } else {

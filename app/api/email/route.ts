@@ -23,12 +23,15 @@ export async function POST(request: NextRequest) {
 
   try {
     await transporter.sendMail(mailOptions)
+    console.log(2)
     return NextResponse.json({ message: 'Email sent successfully' })
   } catch (err) {
     // Type assertion to handle error
     if (err instanceof Error) {
+        console.log(3)
       return NextResponse.json({ error: err.message }, { status: 500 })
     } else {
+        console.log(4)
       return NextResponse.json({ error: 'An unknown error occurred' }, { status: 500 })
     }
   }
