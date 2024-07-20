@@ -1,50 +1,38 @@
-import { type NextRequest, NextResponse } from 'next/server';
-import nodemailer from 'nodemailer';
-import Mail from 'nodemailer/lib/mailer';
+import { NextRequest, NextResponse } from 'next/server'
+import nodemailer from 'nodemailer'
 
 export async function POST(request: NextRequest) {
-  const { email, name, message } = await request.json();
+  const { name, email, telephone, message } = await request.json()
 
-  const transport = nodemailer.createTransport({
+  // Create transporter
+  const transporter = nodemailer.createTransport({
     service: 'gmail',
-    /* 
-      setting service as 'gmail' is same as providing these setings:
-      host: "smtp.gmail.com",
-      port: 465,
-      secure: true
-      If you want to use a different email provider other than gmail, you need to provide these manually.
-      Or you can go use these well known services and their settings at
-      https://github.com/nodemailer/nodemailer/blob/master/lib/well-known/services.json
-  */
     auth: {
       user: process.env.MY_EMAIL,
       pass: process.env.MY_PASSWORD,
     },
-  });
+  })
 
-  const mailOptions: Mail.Options = {
+  // Email options
+  const mailOptions = {
     from: process.env.MY_EMAIL,
     to: process.env.MY_EMAIL,
-    // cc: email, (uncomment this line if you want to send a copy to the sender)
     subject: `Message from ${name} (${email})`,
-    text: message,
-  };
-
-  const sendMailPromise = () =>
-    new Promise<string>((resolve, reject) => {
-      transport.sendMail(mailOptions, function (err) {
-        if (!err) {
-          resolve('Email sent');
-        } else {
-          reject(err.message);
-        }
-      });
-    });
+    text: `Telephone: ${telephone}\n\nMessage:\n${message}`,
+  }
 
   try {
-    await sendMailPromise();
-    return NextResponse.json({ message: 'Email sent' });
+    await transporter.sendMail(mailOptions)
+    console.log(2)
+    return NextResponse.json({ message: 'Email sent successfully' })
   } catch (err) {
-    return NextResponse.json({ error: err }, { status: 500 });
+    // Type assertion to handle error
+    if (err instanceof Error) {
+        console.log(3)
+      return NextResponse.json({ error: err.message }, { status: 500 })
+    } else {
+        console.log(4)
+      return NextResponse.json({ error: 'An unknown error occurred' }, { status: 500 })
+    }
   }
 }
