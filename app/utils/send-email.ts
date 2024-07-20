@@ -1,17 +1,20 @@
-
-// import here
-export function sendEmail(data: FormData) {
-  const apiEndpoint = '/api/email';
-
-  fetch(apiEndpoint, {
-    method: 'POST',
-    body: JSON.stringify(data),
-  })
-    .then((res) => res.json())
-    .then((response) => {
-      alert(response.message);
+export async function sendEmail(data: { name: string, email: string, telephone: string, message: string }) {
+    const apiEndpoint = '/api/email'
+  
+    const response = await fetch(apiEndpoint, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
     })
-    .catch((err) => {
-      alert(err);
-    });
-}
+  
+    const result = await response.json()
+    
+    if (response.ok) {
+      return result.message
+    } else {
+      throw new Error(result.error)
+    }
+  }
+  

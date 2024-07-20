@@ -1,12 +1,9 @@
-
-
 "use client"
 import { Formik, Field, Form, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-
-
+import { sendEmail } from '../utils/send-email'
 
 const ContactForm: React.FC = () => {
   const initialValues = {
@@ -25,12 +22,14 @@ const ContactForm: React.FC = () => {
     message: Yup.string().required('Message is required'),
   })
 
-  const handleSubmit = (values: typeof initialValues, { resetForm }: { resetForm: () => void }) => {
-    console.log(values)
-    toast.success("Success Notification !", {
-        position: "top-center"
-      });
-    resetForm()
+  const handleSubmit = async (values: typeof initialValues, { resetForm }: { resetForm: () => void }) => {
+    try {
+      const responseMessage = await sendEmail(values)
+      toast.success(responseMessage, { position: 'top-center' })
+      resetForm()
+    } catch (error) {
+      toast.error('Failed to send message. Please try again later.', { position: 'top-center' })
+    }
   }
 
   return (
