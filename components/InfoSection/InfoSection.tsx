@@ -15,6 +15,8 @@ const InfoSection: React.FC = () => {
           digital world effectively. Whether you are looking to build a new website, optimize your online
           presence, or develop a comprehensive digital strategy, Atom Digital has the expertise and
           experience to help you achieve your goals.
+
+          Watch this space a new website coming soon
         </p>
       </section>
     )
